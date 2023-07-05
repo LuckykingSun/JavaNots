@@ -2196,7 +2196,243 @@ Pratice：
 
 ![image-20230704195003362](C:\Users\LUCKYKING SUN\AppData\Roaming\Typora\typora-user-images\image-20230704195003362.png)
 
-## overload
+
+
+### 方法逆归调用
+
+逆归就是方法自己调用自己，每次调用时传入不同的变量，逆归有助于解决复杂的问题，使代码更简洁；
+
+#### 打印和阶乘问题
+
+- 打印问题：
+
+```java
+public class recursion01 
+        public static void main(String[] args){
+  T t1 = new T();
+  t1.test(4);
+    }//问题：输出什么？
+}
+class T{
+    public void test(int n){
+        if(n > 2){
+            test(n - 1);
+        }
+    System.out.println("n=" + n);
+    }
+}
+```
+
+jvm的内存
+
+方法的逆归调用分析图：
+
+![image-20230705101709947](C:\Users\LUCKYKING SUN\AppData\Roaming\Typora\typora-user-images\image-20230705101709947.png)
+
+- 阶乘问题
+
+  ```java
+  public class recursion02 {
+      public static void main(String[] args){
+      S s1 = new S();
+       int res = s1.factorial(5) ;
+       System.out.println("输出的结果是=" + res);
+      }
+  }
+  class S{
+      public int factorial(int n){
+          if(n == 1){
+              return 1;
+          } else {
+              return factorial(n-1) * n;
+          }
+      }
+  }
+  ```
+
+![](C:\Users\LUCKYKING SUN\AppData\Roaming\Typora\typora-user-images\image-20230705105117000.png)
+
+
+
+#### 逆归重要的规则
+
+- 执行一个方法时，就创建一个新的受保护的独立空间（栈空间）
+- 方法的局部变量是独立的，不会相互影响，比如n变量
+- 如果方法中使用的是引用类型变量（比如数组），就会共享该引用类型的数据
+- 逆归必须向退出逆归的条件逼近，否则就是无限逆归，出现StackOverflowError 反正就是死了
+- 当一个方法执行完毕，或者遇到return，就会返回，遵守谁调用，就将结果返回给谁，同时当方法执行完毕或者返回时，该方法也就执行完毕了
+
+
+
+#### 逆归方法练习（有意思滴！）
+
+##### 斐波那契数 
+
+```java
+package com.byyj.ObjectOriented.ClassFollow.recursion;
+//使用递归的方式求出斐波那契数1,2,3,5,8,13,21，，，给你一个整数n，求出它的值是多少
+public class recursion03fibonacci {
+    public static void main(String[] args){
+ 	 B b1 = new B();
+        int n = 8;
+        int res = b1.fibonacci(n);
+        if (res != -1) {
+  System.out.println("当n = 25时，对应的斐波那契数=" + b1.fibonacci(25) );
+    }
+}
+}
+    class B {
+        //思路分析
+        //1.当n =  1 斐波那契数列= 1
+        //2.当n =  2 斐波那契数列= 1
+        //3.当n >= 3 斐波那契数列= 前两数之和
+    /*
+    方法返回类型 int
+    方法名字 fibonacci
+    方法形参 int n
+    方法体 创建一个新对象，输入n数字，根据题意条件返回一个值
+     */
+        public int fibonacci(int n) {
+            if (n >= 1) {
+                if (n == 1 || n == 2) {
+                    return 1;
+                } else {
+                    return fibonacci(n - 1) + fibonacci(n - 2);
+
+                }
+            } else {
+                System.out.println("要求输入的数字式大于等于1的，该输入有误的");
+            }
+            return n;
+        }
+    }
+```
+
+
+
+##### 猴子吃桃子喽
+
+猴子吃桃子问题 : 有一堆桃子，猴子第一天吃了其中的一半，并再多吃了一个!以后每天猴子都吃其中的一半，然后再多吃一个。当到第10天时,想再吃时 (即还没吃) ，发现只有1个桃子了。问题 : 最初共多少个桃子 ?
+
+```java
+package com.byyj.ObjectOriented.ClassFollow.recursion;
+
+public class recursion04MonkeyPeach {
+    public static void main(String[] args){
+       D d1 = new D();
+       int day = 2;
+       int peachNum = d1.peach(day);
+       if( peachNum != -1);
+    System.out.println("第" + day + "天有" + peachNum + "个桃子");
+    }
+}
+class D{
+     /*
+     思路分析：
+     1.第10天，桃子= 1
+     2.第9 天，桃子= (day10 + 1) * 2 = 4;
+     3.第8 天，桃子= (day9  + 1) * 2 = 10;
+
+    方法返回类型 int
+    方法名字 peach
+    方法形参 int day
+    方法体 创建一个新对象，输入n数字，根据题意条件返回一个值
+     */
+    public int peach(int day){
+        if( day == 10){
+            return 1;
+        }else if( day >= 1 && day <= 9){
+            return (peach(day+1) + 1 ) * 2;
+        }else{
+            System.out.println("day在1-10中才是有效的");
+            return -1;
+        }
+    }
+```
+
+
+
+### 迷宫问题
+
+![image-20230705192236035](C:\Users\LUCKYKING SUN\AppData\Roaming\Typora\typora-user-images\image-20230705192236035.png)
+
+```java
+package com.byyj.ObjectOriented.ClassFollow.recursion;
+
+public class MiGong {
+    public static void main(String[] args) {
+        int[][] map = new int[8][7];//创建一个8行7列的二维数组 ，表示迷宫地图
+        for (int i = 0; i < 7; i++) {//设置迷宫地图的边界
+            map[0][i] = 1;
+            map[7][i] = 1;
+        }
+        for (int i = 0; i < 8; i++) {
+            map[i][0] = 1;
+            map[i][6] = 1;
+            map[3][1] = 1;
+            map[3][2] = 1;
+        }
+        System.out.println("=====输出当前地图的情况======");
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[i].length; j++) {
+                System.out.print(map[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+        C c1 = new C();//创建一个C类的 实例，，，c1对
+        c1.findway(map, 1, 1);//调用C类的findWay方法来找路
+        System.out.println("====找路的情况如下=====");
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[i].length; j++) {
+                System.out.print(map[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+    }
+    class C {
+    /*1.findway 方法就是专门来找迷宫的路径
+      2.如果找到就返回 true ，否则就返回 false
+      3.map 就是一个二维数组 ，表示迷宫
+      4.i， j 就是老鼠的位置，初始化的位置(1,1);
+      5. 逆归的找路，要先规定map数组的各个值得含义
+          0 表示可以走   1 表示有障碍物   2表示可以走  3表示走过但是 走不通是死路
+      6.当map[6][5] = 2 就说明 找到路，就可以结束，否则继续找
+      7.确定老鼠找路的策略  下-》右-》上-》左
+
+     */
+        public boolean findway(int[][] map, int i, int j) {
+            if (map[6][5] == 2) {
+                return true;
+            } else {
+                if (map[i][j] == 0) {
+                    map[i][j] = 2;
+                    if (findway(map, i + 1, j)) {//下
+                        return true;
+                    } else if (findway(map, i, j + 1)) {//右
+                        return true;
+                    } else if (findway(map, i - 1, j)) {//上
+                        return true;
+                    } else if (findway(map, i, j - 1)) {//左
+                        return true;
+                    }else {
+                        map[i][j] = 3;
+                        return false;
+                    }
+                    } else {//map[i][j] == 1,2,3
+                        return false;
+                    }
+                }
+            }
+        }
+
+
+```
+
+路径和找路的上下左右有关
+
+## overload重载
 
 ## 可变参数
 
