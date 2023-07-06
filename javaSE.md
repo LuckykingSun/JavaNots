@@ -2432,15 +2432,249 @@ public class MiGong {
 
 路径和找路的上下左右有关
 
+### 汉诺塔
+
+```Java
+package com.byyj.ObjectOriented.ClassFollow.recursion;
+
+public class hanioTower {
+    public static void main(String[] args){//编写一个main方法
+        Tower tower = new Tower();
+        tower.move(3,'A','B','C');
+    }
+}
+class Tower{//方法
+    //num表示要移动的个数，abc分别表示ABC塔
+    public void move(int num, char a, char b,char c){
+        if(num == 1){//如果只有一个盘 num = 1；
+            System.out.println(a + "->" + c);
+        }else{//如果有多个盘，可以看成两个，最下面的和最上面的所有盘（num = 1）
+            // (1)先移动上面所有的盘到b ，借助C 
+            move(num - 1,a,c,b);
+            System.out.println(a + "->" + c);
+            move(num - 1, b,a,c);
+        }
+    }
+}
+```
+
+### 八皇后
+
 ## overload重载
+
+####  基本介绍
+
+Java中允许同一个类中，多个同名方法的存在，但是要求 形参列表不一样
+
+eg： System.out.println() ;out是printStream类型
+
+好处就在于 减轻了起名 ， 记名的麻烦 
+
+
+
+
+
+快速入门案例
+
+```java
+快速入门案例  问题
+OverLoad01.java案例: 类: MyCalculator 方法: calculate
+    calculate(int n1.int n2)//两个整数的和
+    calculate(int n1,double n2) //一个整数一个double的和
+    calculate(double n2, int n1)//一个double ,个Int和
+    calculate(int n1int n2,int n3)//三int的和
+```
+
+
+
+解题步骤
+
+```java
+public class overload01 {
+    public static void main(String[] args){
+        Mycalculate mycalculate  = new Mycalculate();
+        System.out.println( mycalculate.calculate(1,4) );
+        System.out.println( mycalculate.calculate(1,4.5) );
+        System.out.println( mycalculate.calculate(1.8,4) );
+        System.out.println( mycalculate.calculate(1,4,3) );
+        
+
+    }
+}
+class Mycalculate {
+    public int calculate(int n1, int n2) {
+        return n1 + n2;
+    }
+    public double calculate( int n1, double n2){
+        return n1 + n2;
+    }
+    public double calculate(double  n1,int n2){
+        return n1 + n2;
+    }
+    public int calculate( int n1,int n2,int n3){
+        return n1 + n2 + n3;
+    }
+}
+```
+
+#### 注意事项和使用细节
+
+- 方法名：必须相同
+- 参数列表：必须不同（参数类型或者个数或顺序，至少有一样不同，参数名无要求）
+- 返回类型：无要求
+
+
+
+
 
 ## 可变参数
 
-## 作用域
+### 基本概念 和语法
 
-## 构造器
+**基本概念**
+
+Java 允许将同一个类中多个同名同功能但参数个数不同的方法，封装成一个方法。就可以通过可变参数实现
+
+**基本语法**
+
+访问修饰符 返回类型 方法名（数据类型...形参名）{}
+
+### 注意事项和使用细节
+
+- 可变参数的实参可以为0 个或任意多个
+
+- 可变参数的实参可以为数组
+
+- 可变参数的本质就是数组
+
+- 可变参数可以和普通类型的参数一起放在形参列表，但必须保证可变参数在最后
+
+- 一个形参列表中只能出现一个可变参数
+
+  ![image-20230706145118101](C:\Users\LUCKYKING SUN\AppData\Roaming\Typora\typora-user-images\image-20230706145118101.png)
+
+  
+
+  ```java
+  package com.byyj.ObjectOriented.ClassFollow.VariableParameter;
+  
+  import com.sun.xml.internal.ws.api.pipe.SyncStartForAsyncFeature;
+  
+  public class pratice {
+      public static void main(String[] args){
+      HspMethed hm = new HspMethed();
+          System.out.println(hm.showScore("milan",90.5,85.7) );
+          }
+      }
+  class HspMethed{
+      //方法返回类型 又有名字又有数，到最后直接返回字符串就好
+      //方法名
+      //方法形参（String，double...）
+      //方法体
+      public String showScore(String name,double...scores) {
+          double totalScore = 0;
+          for (int i = 0; i < scores.length; i++) {
+              totalScore += scores[i];
+          }
+  
+  
+          return name +"有" +scores.length + "门课成绩总分为=" + totalScore;
+  
+      }
+  
+  }
+  ```
+
+  
+
+## 作用域（重要）
+
+### 基本使用：
+
+- 1.在java编程中，主要变量就是属性（成员变量）和局部变量
+- 2.我们说的局部变量一般是指在成员方法中定义的变量
+- 3.java中作用域的分类
+  - 全局变量：也就是属性，作用域为整个类体 cat类：cry，eat等方法使用属性
+  - 局部变量：也就是出了属性之外的其他变量，作用域为定义它的代码块中
+- 全局变量（属性）可以不赋值，直接使用，因为有默认值，局部变量必须赋值后，才能使用，因为没有默认值
+
+### 注意事项和使用细节     
+
+- 属性和局部变量可以重名，访问时遵循就近原则
+
+- 在同一作用域中，比如在同一个成员方法中，两个局部变量，不能重名
+
+- 属性生命周期比较长，伴随着对象的创建而创建，伴随着对象的销毁而销毁，局部变量生命周期较短，伴随着它的代码块的执行而创建，伴随着代码块的结束而销毁。即在一次方法调用过程中
+
+- 作用域范围不同
+
+  - 全局变量：可以被本类使用，或其他类使用（通过对象调用）
+  - 局部变量：只能在本类中对应的方法中使用
+
+- 修饰符不同
+
+  - 全局变量/属性可以加修饰符
+
+  - 局部变量不可以加修饰符
+
+    ![image-20230706162152384](C:\Users\LUCKYKING SUN\AppData\Roaming\Typora\typora-user-images\image-20230706162152384.png)
+
+## 构造方法/构造器
+
+本身就是一个方法，叫法不一一样而已，肯定可以学会的
+
+### 基本语法和说明
+
+```java
+[修饰符] 方法名（形参列表）{
+
+方法体；
+
+}
+```
+
+**说明**
+
+- 构造器的修饰符可以默认 也可以是public protected private
+- 构造器***没有返回值***
+- 方法名 和类名字必须一样
+- 参数列表 和成员方法一样的规则
+- 构造器的调用系统完成
+
+**基本介绍**
+
+构造方法又叫构造器(constructor)，是类的一种特殊的方法，它的主要作用是**完成对新对象的初始化**
+
+**特点**
+
+- 方法名和类名相同
+- 没有返回值 
+
+- 在创建对象时，系统会自动调用该类的构造器完成对对象的初始化
+
+### 注意事项和使用细节
+
+- 一个类可以定义多个不同的构造器，即构造器重载
+
+- 构造器名和类名要相同
+
+- 构造器没有返回值
+
+- 构造器是完成对象的初始化，并不是创建对象
+
+- 在创建对象时，系统会自动的调用该类的构造方法
+
+- 如果程序员没有定义构造器，系统就会自动给类生成一个默认的无参构造器（也叫默认构造器）
+
+- 一旦定义了自己的构造器，默认的构造器就被覆盖了，就不能再使用默认的无参构造器了，除非显式的定义一下，即Dog（）{}    (很重要！！)
+
+  
+
+
+
+扩展![image-20230706203544433](C:\Users\LUCKYKING SUN\AppData\Roaming\Typora\typora-user-images\image-20230706203544433.png)
 
 ## this
 
-
+ 
 
