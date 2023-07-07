@@ -1654,7 +1654,7 @@ a[0]= 2   a[1]=5......
 
 int n1 = 2；int n2 = n1；
 
-2.数组在默认情况下是引用传递，赋的值是地址
+2.数组在默认情况下是**引用传递**，赋的**值是地址**
 
 ```java 
 int[] arr1 = {1,2,3};
@@ -2668,13 +2668,144 @@ Java 允许将同一个类中多个同名同功能但参数个数不同的方法
 
 - 一旦定义了自己的构造器，默认的构造器就被覆盖了，就不能再使用默认的无参构造器了，除非显式的定义一下，即Dog（）{}    (很重要！！)
 
+  ```java
+  public class constructorDetails {
+      public static void main(String[] args){
+     //创建一个包含 name 和 age 参数的 person 对象；
+          Personn p1 = new Personn("king",40);
+     //创建一个包含name 参数的 Person 对象；
+          Personn p2 = new Personn("milan");
+     //输出属性
+      System.out.println(p1.name  + p1.age );
+      System.out.println(p2.name );
+      }
+  }
+  //定义一个类Person
+  class Personn {
+  //定义两个属性，分别为 name 和 age
+      String name;
+      int age;
+  //定义一个带参数的构造器，参数为pName 和 pAge ，用于初始化 name 和 age 属性
+      public Personn(String pName, int pAge) {
+          name = pName;
+          age = pAge;
+      }
+  //定义一个带参数的构造器，参数为怕Name，用于初始化 name 属性
+      public Personn(String pName) {
+          name = pName;
   
+      }
+  }
+  ```
 
 
 
 扩展![image-20230706203544433](C:\Users\LUCKYKING SUN\AppData\Roaming\Typora\typora-user-images\image-20230706203544433.png)
 
+### 对象创建的流程分析
+
+![image-20230707092044525](C:\Users\LUCKYKING SUN\AppData\Roaming\Typora\typora-user-images\image-20230707092044525.png)
+
+
+
+- 加载Person类信息（Person.class）,只会加载一次     
+- 在堆中分配空间（就会有一个地址） 真正的对象是在堆里面
+- 完成对象初始化
+  - 默认初始化 age = 0   name = null
+  - 显示初始化 age = 90  name = null
+  - 构造器初始化 age = 20 ，name = 小倩（在常量池的空间 ，并且有个电池）
+- 在对象在堆中的地址，返回给p （p是对象名，也可以理解为对象的引用）
+
+
+
 ## this
 
- 
+java虚拟机会给每个对象分配 this ，代表当前对象。
 
+### this关键字
+
+ ![image-20230707101231365](C:\Users\LUCKYKING SUN\AppData\Roaming\Typora\typora-user-images\image-20230707101231365.png)
+
+```java
+public class This {
+    public static void main(String[] args) {
+        Dog d1 = new Dog("来福", 1);
+        d1.info();
+    }
+}
+class Dog{
+    String name;
+    int age;
+    //构造器的name 和age，是局部变量，而不是属性
+public Dog(String name, int age) {
+   this.name = name;
+    this.age = age;
+}
+public void info(){
+    System.out.println(name + "\t" + age + "\t");
+
+}}
+```
+
+### 小结
+
+哪个对象调用，this就代表哪个对象
+
+### 注意事项和使用细节
+
+- this关键字可以用来访问本类的属性，方法，构造器
+
+- this用于区分当前类的属性和局部变量
+
+- 访问成员方法的语法：this方法名（参数列表）；
+
+- 访问构造器语法：this（参数列表）：注意只能在构造器中使用(即只能在构造器中访问另外一个构造器)
+
+  注意：访问构造器语法：this（参数列表）：必须放置第一条语句
+
+- this不能在类中定义的外部使用，只能在类定义的方法中使用
+
+this是一个成员变量，在方法中使用this关键字可以引用当前对象，从而访问其属性 和 调用其方法
+
+
+
+```java
+public class thiswork {
+    public static void main(String[] args){
+       //创建对象
+        Person p1 = new Person("黄河",18);
+        Person p2 = new Person("长江",18);
+        //调用p1的comepareTo方法，将p2作为参数传递，并打印返回的结果
+        System.out.println(p1.compareTO(p2) );
+        //p1为当前对象 this，把p2传给了compare  to的Person p
+    }
+}
+
+/*定义Person类，里面有name,age属性 ，并提供compareTo比较方法；
+用于判断是否和另一个人相同，体工会测试类TestPerson用于测试
+名字和年龄完全一样，就返回true，否则返回false
+
+ */
+
+
+
+class Person {
+    String name;
+    int age;
+//定义一个名为Person 的公共构造器，可接受name和age参数 ；
+    public Person(String name, int age) {
+    //将传递的参数分别赋值给当前的name 和age属性，然后结束构造器
+        this.name = name;
+        this.age = age;
+    }
+//定义一个compareTO的公共方法，接受一个Person类型的参数person
+    public boolean compareTO(Person p) {
+       // if (this.name.equals(p.name) && this.age == p.age) {
+
+        //return true;
+        //} else {
+            //return false;
+        return this.name.equals(p.name ) && this.age == p.age ;
+        }
+    }
+```
