@@ -1918,7 +1918,7 @@ index 指数
 
 
 
-# 第六章 面向对象编程
+# 第六章 面向对象编程（基础）
 
 ## 类与对象（OOP）
 
@@ -2053,7 +2053,7 @@ p.age = 10;
 
 ## 成员方法
 
-在某些情况下我们需要定义成员方法
+在某些情况下我们需要定义成员方法，让我们的类有一些行为，没可以做一些事情
 
 #### 定义
 
@@ -2081,6 +2081,8 @@ p.age = 10;
 
 #### 方法调用机制
 
+![image-20230710104637202](C:\Users\LUCKYKING SUN\AppData\Roaming\Typora\typora-user-images\image-20230710104637202.png)
+
 方法调用小结
 
 1.当程序执行到方法时，就会开辟一个独立的空间（栈空间）
@@ -2097,7 +2099,7 @@ p.age = 10;
 
 #### 成员方法的好处
 
-- 提高代码的复用性
+- 提高代码的**复用性**
 
 - 可以将实现的细节封装起来，然后供其他用户来调用即可
 
@@ -2105,7 +2107,9 @@ p.age = 10;
 
 访问修饰符
 
-作用：控制 方法使用的范围如果不写就是默认访问（`public` `protected` 默认 `private`）
+作用：控制 方法使用的范围
+
+如果不写就是默认访问（`public` `protected` 默认 `private`）
 
 ##### 返回数据类型
 
@@ -2116,7 +2120,7 @@ p.age = 10;
 - 如果方法是`void` ，则方法体中可以没有return语句，或者只写 return；
 - 方法名 ，遵循驼峰命名法，最好见名知意，表达出该功能的意思即可，比如得到两个数的和getSum ，开发中按照规范
 
-##### 形参列表
+#####      形参列表
 
 - 一个方法可以有0个参数，也可以有多个参数，中间用逗号隔开
 
@@ -2130,7 +2134,7 @@ p.age = 10;
 
 - 方法定义的参数称为形式参数，简称形参；方法调用时的参数称之为实际参数，简称实参，实参和形参的类型要一致或兼容，个数，顺序必须一致！
 
-  方法体
+  **方法体**
 
   里面写完成功能的具体的语句，可以为输入，输出，变量，运算，分支，循环，方法调用，但里面不能再定义方法
 
@@ -2164,11 +2168,13 @@ p.age = 10;
 
 ![image-20230704154852116](C:\Users\LUCKYKING SUN\AppData\Roaming\Typora\typora-user-images\image-20230704154852116.png) 
 
+都是独立的
+
 ### 引用数据类型的传参机制
 
-只要调用方法就会产生一个新的栈
+**只要调用方法就会产生一个新的栈**
 
-如果有数组，栈中的数组指向堆，重新再开地址
+**如果有数组，栈中的数组指向堆，重新再开地址**
 
 ### 
 
@@ -2176,7 +2182,7 @@ p.age = 10;
 
 **题目**B类中编写一个方法 test100，可以接收一个数组，在方法中修改该数组，看看原来的数组怎么变化
 
-
+![image-20230710105126594](C:\Users\LUCKYKING SUN\AppData\Roaming\Typora\typora-user-images\image-20230710105126594.png)
 
 **题目**B类中编写一个方法test200，可以接收一个Person（age，sal）对象，在方法中修改对象的属性，看看原来的对象是否变化
 
@@ -2468,7 +2474,7 @@ Java中允许同一个类中，多个同名方法的存在，但是要求 形参
 
 eg： System.out.println() ;out是printStream类型
 
-好处就在于 减轻了起名 ， 记名的麻烦 
+好：就在于 减轻了起名 ， 记名的麻烦 
 
 
 
@@ -2587,7 +2593,7 @@ Java 允许将同一个类中多个同名同功能但参数个数不同的方法
 
   
 
-## 作用域（重要）
+## 作用域（重要）（变量使用的范围）
 
 ### 基本使用：
 
@@ -2622,6 +2628,8 @@ Java 允许将同一个类中多个同名同功能但参数个数不同的方法
 ## 构造方法/构造器
 
 本身就是一个方法，叫法不一一样而已，肯定可以学会的
+
+看一个需求，前面我们在创建人类的对象时，是先把一个对象创建好后，再给他的年龄和姓名赋值，如果我现在要求，在创建人类的对象的时候，就直接指定对象的姓名和年龄，这时就可以
 
 ### 基本语法和说明
 
@@ -2747,7 +2755,7 @@ public void info(){
 }}
 ```
 
-### 小结
+### 小结（重要）
 
 哪个对象调用，this就代表哪个对象
 
@@ -2809,3 +2817,303 @@ class Person {
         }
     }
 ```
+
+## 章节作业
+
+### 08分析输出
+
+```java 
+public class Test {//公有类
+    int count = 9;//属性
+
+    public void count1(){//test类的成员方法
+        this.count = 10;// 这个count 就是属性,改成10
+        System.out.println("count1 = " + count);
+    }
+
+    public void count2(){//test类的成员方法
+        System.out.println("count1 = " + count++);
+    }
+
+    //这是test类的main方法，任何一个类，都可有main
+    public static void main(String args[]){
+        //1.new Test()是匿名对象，匿名对象只能使用一次，使用后就不能再使用
+        //2.new Test().count1(),创建好匿名对象后，就调用count()
+        new Test().count1() ;
+        Test t1 = new Test();
+        t1.count2();
+        t1.count2();
+    }
+}
+
+//输出的是 9和10  但是分析的为 10,11
+//因为 是count++ ，后++ ，先输出 ，后自增
+```
+
+![image-20230708115023919](C:\Users\LUCKYKING SUN\AppData\Roaming\Typora\typora-user-images\image-20230708115023919.png)
+
+### 10分析输出
+
+```java
+public class Dome10 {
+    //定义一个公有静态方法main ，作为程序的入口点
+    public static void main(String[] args) {
+    }
+}
+
+    class Dome {
+        int i = 100;
+        public void m() {
+            int j = i++;
+            System.out.println("i=" + i);//
+            System.out.println("j=" + j);//
+        }
+    }
+
+
+    class Test {
+        public static void main(String[] args) {
+            Dome d1 = new Dome();
+            Dome d2 = d1;
+            d2.m();
+            System.out.println(d1.i);
+            System.out.println(d2.i);
+        }
+    }
+```
+
+![](C:\Users\LUCKYKING SUN\AppData\Roaming\Typora\typora-user-images\image-20230708150149108.png)
+
+调用m方法就产生了一个新的m栈，有个局部变量j，i将自己的属性赋给了j ，自己又自增101，   i
+
+
+
+# --------- 面向对象（中级）
+
+## intellij IDEA
+
+### 介绍
+
+1.IDEA 全称 intellij IDEA
+
+2.公认最好的java开发工具
+
+3.该工具是jetBrains公司的产品，总部位于捷克的首都布拉格
+
+4.除了支持java的开发，还支持HTML ，CCS，PHP，MySQL，Python等
+
+### IDE（集成开发环境） ---Eclipse
+
+###  常用快捷键
+
+- 删除当前行，自己配置ctrl + d
+
+- 复制当前行，自己配置ctrl + alt + 向下光标
+
+- 补全代码 alt + /
+
+- 添加注释和取消注释 ctrl +  /[第一次是添加注释，第二次是取消注释]
+
+  ctrl  +  D 是复制这一行并且粘贴
+
+- 导入该行需要的类，先配置auto import，然后使用alt + enter 即可
+
+- 快速格式化代码 ctrl+ shift + L
+
+- 快速运行程序 alt + shift + F10
+
+- 生成构造器等   alt + insert 【提高开发效率】
+
+- 查看一个类的层级关系 ctrl + H （学习继承后 ，会非常的有用）
+
+- 将光标放在一个方法上，输入 ctrl + B 可以定位到方法（学习继承后，会非常有用）
+
+- 自动的分配变量名 ，通过 在后面  +   . var
+
+- 其他快捷键
+
+  - ctrl  +  Y 是删除这一行
+
+    ctrl  +  A 是全部选择
+
+    ctrl  +  Z 是撤销上一步1
+
+    ctrl  +  G  是转到哪一行
+
+### IDE（集成开发环境） IDEA的使用
+
+模版 
+
+file --->  settings ---->editor ------>live templates（模版） ---->
+
+查看自己有多少模版快捷键  //  可以自己增添模版
+
+模版可以高效的完成开发，提高速度
+
+## 包
+
+### 作用
+
+- 区分相同名字的类
+- 当类很多时，可以很好的管理类
+- 控制访问范围
+
+### 基本语法 
+
+package com.xxxxx
+
+**说明**
+
+package 关键字 表示打包
+
+com.xxxxx;表示包名
+
+### 包的本质分析
+
+实质上就是创建不同的文件夹来保存类文件，示意图如下
+
+![image-20230710171524438](C:\Users\LUCKYKING SUN\AppData\Roaming\Typora\typora-user-images\image-20230710171524438.png)
+
+### 包的命名
+
+#### 命名规则
+
+只能包含数字，字母，下划线，小圆点，但是不能用数字开头，不能是关键字或者保留字
+
+判断  eg : demo.class.exec1   //错误,因为有关键字
+
+​				dome.12a     //错误， 因为数字不能开头
+
+​				demo.ab12.oa  //   正确
+
+#### 命名规范
+
+一般是小写字母 + 小圆点    com.公司名.项目名.业务模块名
+
+eg ：com.syj.oa.model      com.syj.oa.controller
+
+举例子： com.sina.crm.user  //用户模块
+
+  			  com.sina.crm.order  // 订单模块
+
+​				com.sina.crm.utils   //工具类
+
+### 常用的包
+
+一个包下 ，包含很多类 ，java中常用的包有：
+
+java.lang   //lang包是基本包，默认引入，不需要再引入.        不用再import  
+
+java.util      // util 包 ，系统提供的工具包，工具类  ，使用Scanner
+
+java.net      //网络包  ，网络开发
+
+java.awt      // 是做java 的页面开发 ，GUI
+
+### 如何引用包
+
+com.syj.pkg  : import01.java
+
+语法： 
+
+Import 包；
+
+引入一个包的主要目的是使用该包下的类
+
+有两种引用方式
+
+Import java.util.Scanner    //就只是引入  java.util 包下的  Scanner   
+
+import java.util.* //表示 将java .util 包下的所有类都引入（导入）
+
+（ 所以说 ，我们需要使用到那个类 ，就导入哪个类即可）
+
+### 注意事项 和 使用细节
+
+1. package的作用是声明 当前类所在的包 ，需要放在`class`的最上面，一个类中最多只有一句 `package`
+2. import 指令位置放在 package 的下面 ，在类定义前面 ，可以有多句且没有顺序要求
+
+![image-20230710200501674](C:\Users\LUCKYKING SUN\AppData\Roaming\Typora\typora-user-images\image-20230710200501674.png)
+
+​    
+
+## 访问 修饰符
+
+#### 基本介绍
+
+java提供了四种访问修饰符号空号控制方法 和属性（成员变量） 的访问权限 （范围）；
+
+1. 公开级别：`public`  修饰，对外公开
+2. 受保护级别 ：`protected `修饰 ，对子类和同一个包中的类公开
+3. 默认级别： 没有修饰符号，向同一个包的类公开
+4. 私有级别：用`private`修饰，只有类本身可以访问，不对外公开
+
+
+
+#### 4种访问修饰符的访问范围（需要背下来！）
+
+![image-20230710201204044](C:\Users\LUCKYKING SUN\AppData\Roaming\Typora\typora-user-images\image-20230710201204044.png)
+
+使用的注意事项
+
+1. 修饰符可以用来修饰类中的属性，成员方法以及类
+2. 只有默认的和public 才能修饰类 ，并且遵循上述访问权限的特点
+3. 成员方法的访问规则和属性完全一样
+
+
+
+## * 封装（encapsulation）
+
+### 基本介绍：
+
+ 封装就是把抽象出的数据（属性） 和 对数据的操作【方法】封装在一起，数据被保护在内部，程序的其他部分只有通过被授权的操作【方法】，才能对数据进行操作
+
+### 封装的理解和好处
+
+1. 隐藏实现细节    方法（连接数据库）<-----调用（传入参数....）
+2. 可以对数据进行验证 ，保证安全合理
+
+### 封装的实现步骤
+
+1. 将属性进行私有化 【不能直接修改属性】
+
+2. 提供一个公共（public）set 方法 ，用于对属性判断并赋值
+
+   ```java
+   public void setXxx（类型 参数名）{
+   
+    		// 加入数据验证的业务逻辑
+   
+   ​		属性 = 参数名；
+   
+   }
+   ```
+
+   
+
+3. 提供一个公共的get方法 ，用于获取属性的值
+
+   ```java
+   public XX getXxx（）{ // 权限判断  Xxx某个属性
+   
+   ​	return xx;
+   
+   }
+   ```
+
+   
+
+## * 继承
+
+## * 多态
+
+## Super
+
+## overwrite
+
+## Object类详解
+
+## 断点调试
+
+
+
