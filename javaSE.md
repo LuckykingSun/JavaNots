@@ -3101,11 +3101,229 @@ java提供了四种访问修饰符号空号控制方法 和属性（成员变量
    }
    ```
 
-   12
+   ### 快速入门案例
+
+   ```java
+   package com.JavaSE.byyj.ObjectOrientedSecond.encap;
+   //题目： 编写一个小程序，不能随便查看人的年龄和薪水等隐私，
+   //      并对设置的年龄进行合理的验证，年龄合理就设置，不合理就默认，
+   //      年龄必须在1-120之间，工资不能直接查看，name的长度在 2 -6 字符之间_
+   public class Encapsulation01 {
+       public static void main(String[] args) {
+           Person person = new Person();//创建一个Person类的对象
+           person.name = "yingjie";//设置Person 对象的setName方法，将名字设置为。。。
+           person.setName("sun");//调用类Person对象person的 setname方法，设置名字
+           person.setAge(21);//同上
+           person.setSalary(12000);//同上
+           System.out.println(person.info() );//打印person对象的信息
+       }
+   }
+   class Person{
+       public String name;//定义公开属性，名字公开，可以直接访问
+       private int age;//将 age 私有化，私有属性 ，只能通过setAge 和 getAge 方法来访问
+       private double salary; //将 salary 私有化 ，私有属性 这能通过set 和 get方法 来访问
+   
+       //自己写代码太慢了  ，使用快捷键，alt + ins 弹出构造函数后，
+       //选择getter 和setter 按住ctrl和shift键 进行全选，输出即可
+       public String getName() {//定义一个getname 方法，用于获取名字属性的值
+           return name;
+       }
+       public void setName(String name) {//定义一个setname方法，用于设置名字属性的值
+           if(name.length() >= 2 && name.length() <= 6 ){  //设置时，进行验证
+               this.name = name;
+           }else{
+                System.out.println("你设置的名字长度哪不对，应在2-6字符之间 ，给默认名字榴莲");
+                this.name = "榴莲";
+           }
+       }
+   
+   
+       public int getAge() { //获取年龄属性的值
+           return age;
+       }
+       public void setAge(int age) {// 设置年龄属性的值
+           if(age >= 1 && age <= 120){
+               this.age = age;
+           }else{
+               System.out.println("你设置的年龄不在 1-120 之间，给默认年龄18");
+               this.age = 18;
+           }
+       }
+   
+       public double getSalary() {// 获取
+           return salary;
+       }
+       public void setSalary(double salary) { //设置
+           this.salary = salary;
+       }
+   
+       public String info(){ //定义一个info方法，用于获取Person对象的信息
+           return "信息为姓名= " + name + "  年龄=" + age + "  薪水=" + salary;
+       }
+   }
+   
+   //其中Person类的属性name为公开属性，可以直接访问，
+   //而age和salary为私有属性，只能通过set和get方法来访问。
+   //set方法中，对年龄和名字长度进行了验证，如果不符合要求，则设置为默认值
+   //最后，通过info方法获取Person对象的信息，将其打印出来。
+   /
+   ```
+
+   #### 将构造器与setXxx结合
+
+   ```java
+     public Person() {
+       }
+       // 有三个构造器的存在
+       public Person(String name, int age, double salary) {
+           //this.name = name;
+           //this.age = age;
+           //this.salary = salary;
+           //这种情况我们可以将set方法写在构造器中，这样任然可以验证
+           setName(name);  //就是本类的  setname = this.setnamer
+           setAge(age);
+           setSalary(salary);
+       }
+   
+   ```
 
    
 
 ## * 继承
+
+继承     解决代码的复用性
+
+### 基本介绍和示意图
+
+继承可以解决代码复用，让我们的编程更加靠近人类的思维，当多个类存在相同的属性（变量）和方法时，可以在这些类中抽象出父类，在父类中定义这些相同的属性和方法，所有的子类不需要重新定义这些属性和方法，只需要通过extend来声明继承父类即可
+
+### 基本语法
+
+class 子类 extends 父类{
+
+}
+
+1. 子类就会自动拥有父类定义的属性和方法
+
+2. 父类又叫做 超类，基类
+
+3. 子类又叫派生类
+
+   ![image-20230711142418769](C:\Users\LUCKYKING SUN\AppData\Roaming\Typora\typora-user-images\image-20230711142418769.png)
+
+### 继承的好处
+
+- 代码的复用性提高了
+- 代码的扩展性和维护性提高了
+
+### 继承的细节问题
+
+1. 子类继承了所有的属性和方法，非私有的属性和方法可以在子类直接访问   但是私有属性和方法不能在子类直接访问，要通过公共方法去访问![image-20230711151520186](C:\Users\LUCKYKING SUN\AppData\Roaming\Typora\typora-user-images\image-20230711151520186.png)   
+
+2. 子类必须调用父类的构造器，完成父类的初始化      
+
+   ![image-20230711160605282](C:\Users\LUCKYKING SUN\AppData\Roaming\Typora\typora-user-images\image-20230711160605282.png)
+
+3. 当创建i之类对象时，不管使用子类的哪个构造器 ，默认情况下总会去调用父类的无参构造器，如果父类没有提供无参构造器，则必须在子类的构造器中使用super去指定使用父类的哪个构造器完成对父类的初始化工作，否则，编译不会通过
+
+4. 如果希望指定去调用父类的某个构造器，则显示的调用一下：super（参数列表）
+
+   ![image-20230711163349740](C:\Users\LUCKYKING SUN\AppData\Roaming\Typora\typora-user-images\image-20230711163349740.png)
+
+5. super在使用时，必须放在构造器第一行 (super 关键字只能在构造器中使用)
+
+6. super（） 和 this（）都只能放在构造器的第一行，因此这两个方法不能共存在一个构造器     （不能共存）
+
+7.  java所有类都是Object类的子类    ctrl  + H 就可以查看层级
+
+   ![image-20230711171113492](C:\Users\LUCKYKING SUN\AppData\Roaming\Typora\typora-user-images\image-20230711171113492.png)
+
+8. 父类构造器的调用不限于直接父类！ 将一直往上追溯查到nObject 类（顶级父类）
+
+   ![image-20230711171416683](C:\Users\LUCKYKING SUN\AppData\Roaming\Typora\typora-user-images\image-20230711171416683.png)
+
+9. 子类最多只能提供一个父类（指直接继承），即java中是单继承机制
+
+10. 不能滥用继承，子类和父类之间必须满足is -a 的逻辑关系  是一个..
+
+     animal   cat
+
+### 继承的本质  内存布局和分析图
+
+```java
+public class theory {
+    public static void main(String[] args) {
+        Son son = new Son();
+        //按照查找关系来返回信息
+        //(1) 首先看子类有没有该属性
+        //(2) 如果子类有这个属性，并且可以访问，则返回信息
+        //(3) 如果子类没有这个属性，就看父类有没有这个属性// 如果父类有该属性，并且可以访问，就返回信息..）
+        //    （如果父类有该属性，并且可以访问，就返回信息..）
+        //(4) 如果父类没有就按照（3）的规则，继续找上级关系，直到Object...
+        System.out.println(son.name);//输出的值是大头儿子
+        System.out.println(son.age);// 输出的值是39
+        System.out.println(son.hobby);//输出的值是旅游
+
+
+    }
+}
+class GrandPa{
+    String name = "大头爷爷";
+    String hobby = "旅游";
+}
+class Father extends GrandPa{
+    String name = "大头爸爸";
+    int age = 39;
+}
+class Son extends Father{
+    String name = "大头儿子";
+}
+```
+
+![image-20230711194148393](C:\Users\LUCKYKING SUN\AppData\Roaming\Typora\typora-user-images\image-20230711194148393.png)
+
+   //按照查找关系来返回信息
+        //(1) 首先看子类有没有该属性
+        //(2) 如果子类有这个属性，并且可以访问，则返回信息
+        //(3) 如果子类没有这个属性，就看父类有没有这个属性// 如果父类有该属                                                                     性，并且可以访问，就返回信息..）
+        //（如果父类有该属性，并且可以访问，就返回信息..）
+        //(4) 如果父类没有就按照（3）的规则，继续找上级关系，直到Object...
+
+super();//父类的无参构造器
+
+
+
+### T1
+
+```java
+public class exercise01 {
+    public static void main(String[] args) {
+        B b = new B();//求B输出是什么？   B()  说明调用B类的无参构造器
+    }
+}
+class A {
+    A() {
+        System.out.println("a");
+    }
+}
+class B extends A {
+    B() {
+
+        this("abc");//调用本类的中带字符串的构造器
+        System.out.println("b");
+    }
+    //然后在B(string name)中显式调用了父类的无参构造器super（）
+
+    B(String name){
+        super();
+        System.out.println("b name");
+    }
+}
+```
+
+![image-20230711205712220](C:\Users\LUCKYKING SUN\AppData\Roaming\Typora\typora-user-images\image-20230711205712220.png)
+
+
 
 ## * 多态
 
