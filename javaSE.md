@@ -3648,3 +3648,30 @@ F8： 逐行执行代码
 
 shift + F8：跳出方法
 
+将光标放在某个变量上，可以看到最新的数据
+
+#### IDea debug 如何进人  JDK源码
+
+解决方式1
+
+使用 froce Step into快捷键  alt + shift + F7 
+
+解决方式2
+
+配置  点击 Setting--->Build,Execution,Deplyment---->Debugger---->Stepping,  把Do not  into  tthe classes中的 ajva ，javax取消勾选
+
+![image-20230714091252614](C:\Users\LUCKYKING SUN\AppData\Roaming\Typora\typora-user-images\image-20230714091252614.png)                                                                          
+
+断点可以在debug过程中 ，动态的下断点
+
+
+
+# 项目&学以致用
+
+## 零钱通
+
+代码改进
+
+1. 用户输入4 退出时，输出提示:你确定你要退出吗  "y / n",必须输入正确的 y / n ，否原循环输入指令，直到输入  y 或者是 n
+2. 在收益入账和消费时，判断金额是否合理，并给出相应的提示i
+3. 将面向过程的代码修改为面向对象的方法
